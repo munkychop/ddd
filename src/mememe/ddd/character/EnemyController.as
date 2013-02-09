@@ -1,4 +1,5 @@
 package mememe.ddd.character {
+	import mememe.ddd.vo.EnemyDifficultyVO;
 	import mememe.ddd.ApplicationSignals;
 	import flash.geom.Point;
 	import mememe.ddd.StarlingTicker;
@@ -27,7 +28,7 @@ package mememe.ddd.character {
 			_ticker.add(tick);
 		}
 		
-		private function levelStopped(vo){
+		private function levelStopped(vo:EnemyDifficultyVO){
 			//vo.difficulty;
 		}
 		

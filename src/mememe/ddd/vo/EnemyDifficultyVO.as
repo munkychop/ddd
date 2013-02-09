@@ -2,7 +2,7 @@ package mememe.ddd.vo {
 	/**
 	 * @author munky
 	 */
-	public class EnenmyDifficultyVO {
+	public class EnemyDifficultyVO {
 		public var difficulty:uint;
 	}
 }

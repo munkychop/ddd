@@ -16,6 +16,7 @@ package mememe.ddd
 		private var screenInGame:DrugDealingDino;
 		private var myStarling : Starling;
 		private var _keyboardInput : KeyboardInput;
+		private var _ticker : StarlingTicker;
 		
 		public function Main():void 
 		{
@@ -31,6 +32,8 @@ package mememe.ddd
 			myStarling = new Starling(DrugDealingDino, stage);
 			
 			_keyboardInput = new KeyboardInput(stage);
+			_ticker = Ticker.getInstance();
+			_ticker.start();
 			
 			myStarling.antiAliasing = 1;
 			

@@ -15,7 +15,7 @@ package mememe.ddd {
 		private function onAdded(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
-			
+			//test
 			//gamePlay = new GamePlay();
 			//this.addChild(gamePlay);
 		}

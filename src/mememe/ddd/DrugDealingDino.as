@@ -5,7 +5,8 @@ package mememe.ddd {
 
 	public class DrugDealingDino extends Sprite
 	{
-		private var gamePlay:GamePlay;
+		private var gamePlay : GamePlay;
+		private var _ticker : StarlingTicker;
 		// MAIN STARLING CLASS. HERE ALL STARTS
 		public function DrugDealingDino ()
 		{
@@ -19,6 +20,11 @@ package mememe.ddd {
 			
 			gamePlay = new GamePlay();
 			this.addChild(gamePlay);
+			
+			_ticker = Ticker.getInstance();
+			
+			gamePlay.addChild(_ticker);
+			_ticker.start();
 		}
 	}
 }

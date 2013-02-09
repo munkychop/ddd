@@ -1,4 +1,5 @@
 package mememe.ddd.character {
+	import mememe.ddd.ApplicationSignals;
 	import flash.geom.Point;
 	import mememe.ddd.StarlingTicker;
 	import mememe.ddd.Ticker;
@@ -21,9 +22,13 @@ package mememe.ddd.character {
 			_gameArea = gameArea;
 			
 			startWave(1);
-			//ApplicationSignals.levelStoppedSignals.add();
+			ApplicationSignals.levelStoppedSignal.add(levelStopped);
 			_ticker = Ticker.getInstance();
 			_ticker.add(tick);
+		}
+		
+		private function levelStopped(vo){
+			//vo.difficulty;
 		}
 		
 		private function startWave(level:int){

@@ -1,5 +1,6 @@
 package mememe.ddd.stages 
 {
+	import mememe.ddd.character.EnemyController;
 	import flash.geom.Rectangle;
 	import mememe.ddd.character.Hero;
 	import mememe.ddd.controls.KeyboardInput;
@@ -16,6 +17,7 @@ package mememe.ddd.stages
 	public final class GamePlay extends Sprite 
 	{		
 		public var dino:Hero;
+		private var _enemyController:EnemyController;
 		static public const UNAVAILABLITY_AREA:uint = 550;
 		private var gameArea:Rectangle;
 		private var bg:GameBackground;		
@@ -40,6 +42,9 @@ package mememe.ddd.stages
 			
 			dino = new Hero();			
 			addChild(dino);
+			
+			_enemyController = new EnemyController(dino, gameArea);
+			addChild(_enemyController);
 			
 			dino.x = int(0);
 			dino.y = int(stage.stageHeight);

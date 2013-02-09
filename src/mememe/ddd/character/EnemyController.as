@@ -20,9 +20,6 @@ package mememe.ddd.character {
 			_gameArea = gameArea;
 			
 			startWave(1);
-			
-			_ticker = Ticker.getInstance();
-			_ticker.add(tick);
 		}
 		
 		private function startWave(level:int){
@@ -45,26 +42,32 @@ package mememe.ddd.character {
 			spawnPoints[Array] = new Array(_gameArea.width + enemOffsetX, _gameArea.height - enemOffsetY);
 			
 			createEnemy(spawnPoints[Math.round((Math.random() * spawnPoints.length))]);
+			trace("start wave");
+			_ticker = Ticker.getInstance();
+			trace(_ticker);
+			_ticker.add(tick);
 		}
 		
 		public function createEnemy(spawnPoint:Array){
 			var enem = new Enemy(_hero);
 			//enem.x = spawnPoint[0];
 			//enem.y = spawnPoint[1];
-			//_enemies[Enemy] = enem;
-			//addChild(enem);
+			_enemies[Enemy] = enem;
+			addChild(enem);
 		}
 		
 		//_enemyController = new EnemyController(dino, gameArea);
 		//	addChild(_enemyController);
 		
 		public function tick(){
+			trace("tick function");
 			moveEnemies();
 		}
 		
 		private var enemy:Enemy; 
 		
 		private function moveEnemies(){
+			trace("move function");
 			for each (var enemy: Enemy in _enemies){
 				trace(enemy.movementSpeed);
 			}

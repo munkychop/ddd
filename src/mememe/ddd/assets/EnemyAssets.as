@@ -24,7 +24,7 @@ package mememe.ddd.assets
 		{
 			if (_enemyTextureAtlas == null)
 			{
-				var texture:Texture = getTexture("AtlasTextureHero");
+				var texture:Texture = getTexture("AtlasTextureEnemy");
 				var xml:XML = XML(new AtlasXmlEnemy());
 				_enemyTextureAtlas=new TextureAtlas(texture, xml);
 			}

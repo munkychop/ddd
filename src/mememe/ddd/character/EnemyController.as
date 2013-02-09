@@ -1,4 +1,6 @@
 package mememe.ddd.character {
+	import mememe.ddd.StarlingTicker;
+	import mememe.ddd.Ticker;
 	import flash.geom.Rectangle;
 	import starling.display.Stage;
 	import flash.utils.Dictionary;
@@ -8,6 +10,7 @@ package mememe.ddd.character {
 	 */
 	public class EnemyController extends Sprite{
 		private var _hero:Hero;
+		private var _ticker:StarlingTicker;
 		private var _gameArea:Rectangle;
 		
 		private var _enemies:Dictionary = new Dictionary();
@@ -17,6 +20,9 @@ package mememe.ddd.character {
 			_gameArea = gameArea;
 			
 			startWave(1);
+			
+			_ticker = Ticker.getInstance();
+			_ticker.add(tick);
 		}
 		
 		private function startWave(level:int){
@@ -49,12 +55,17 @@ package mememe.ddd.character {
 			//addChild(enem);
 		}
 		
+		//_enemyController = new EnemyController(dino, gameArea);
+		//	addChild(_enemyController);
+		
 		public function tick(){
 			moveEnemies();
 		}
 		
+		private var enemy:Enemy; 
+		
 		private function moveEnemies(){
-			for each (var enemy: Enemy in _enemies) {
+			for each (var enemy: Enemy in _enemies){
 				trace(enemy.movementSpeed);
 			}
 		}

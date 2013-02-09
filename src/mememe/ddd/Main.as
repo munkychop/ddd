@@ -14,7 +14,8 @@ package mememe.ddd
 	public class Main extends Sprite 
 	{
 		private var screenInGame:DrugDealingDino;
-		private var myStarling:Starling;
+		private var myStarling : Starling;
+		private var _keyboardInput : KeyboardInput;
 		
 		public function Main():void 
 		{
@@ -28,6 +29,8 @@ package mememe.ddd
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			myStarling = new Starling(DrugDealingDino, stage);
+			
+			_keyboardInput = new KeyboardInput(stage);
 			
 			myStarling.antiAliasing = 1;
 			

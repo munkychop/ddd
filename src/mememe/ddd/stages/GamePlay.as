@@ -34,7 +34,7 @@ package mememe.ddd.stages
 		}
 		
 		private function init():void {
-			KeyboardInput.mystage = this;
+			
 			dino = new Hero();
 			//enemy = new Enemy();
 			

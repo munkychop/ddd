@@ -1,5 +1,5 @@
-package mememe.ddd.character
-{
+package mememe.ddd.character {
+	import mememe.ddd.ApplicationSignals;
 	import mememe.ddd.assets.HeroAssets;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
@@ -29,7 +29,8 @@ package mememe.ddd.character
 		
 		private function init():void
 		{
-			KeyboardInput.keypress.add(keypressSignalHandler);
+			ApplicationSignals.keypressSignal.add (keypressSignalHandler);
+			
 			heroArt = new MovieClip(HeroAssets.getAtlasHero().getTextures("anim"), 20);
 			heroArt.pivotX = 0;
 			heroArt.pivotY = heroArt.height;
@@ -40,7 +41,7 @@ package mememe.ddd.character
 		
 		private function keypressSignalHandler(key:uint):void 
 		{
-			trace(key);
+			trace("Hero:: key pressed: " + key);
 		}
 		
 	}	

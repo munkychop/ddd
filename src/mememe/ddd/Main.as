@@ -2,6 +2,7 @@ package mememe.ddd
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import mememe.ddd.controls.KeyboardInput;
 	import mememe.ddd.DrugDealingDino;
 	import starling.core.Starling;
 	
@@ -17,6 +18,7 @@ package mememe.ddd
 		
 		public function Main():void 
 		{
+			//super();
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}
@@ -24,6 +26,7 @@ package mememe.ddd
 		private function init(e:Event = null):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
+			
 			myStarling = new Starling(DrugDealingDino, stage);
 			
 			myStarling.antiAliasing = 1;

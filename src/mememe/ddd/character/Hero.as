@@ -1,33 +1,35 @@
-package mememe.ddd.character 
-{	
+package mememe.ddd.character
+{
 	import mememe.ddd.assets.HeroAssets;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import mememe.ddd.controls.KeyboardInput;
 	
 	/**
 	 * ...
 	 * @author Radu Chiriac
 	 */
-	public class Hero extends Sprite 
+	public class Hero extends Sprite
 	{
 		private var heroArt:MovieClip;
 		
-		public function Hero() 
+		public function Hero()
 		{
 			super();
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);
 		}
 		
-		private function onAdded(e:Event):void 
+		private function onAdded(e:Event):void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
 			init();
 		}
 		
-		private function init():void 
+		private function init():void
 		{
+			KeyboardInput.keypress.add(keypressSignalHandler);
 			heroArt = new MovieClip(HeroAssets.getAtlasHero().getTextures("anim"), 20);
 			heroArt.pivotX = 0;
 			heroArt.pivotY = heroArt.height;
@@ -36,6 +38,10 @@ package mememe.ddd.character
 			this.addChild(heroArt);
 		}
 		
-	}
-
+		private function keypressSignalHandler(key:uint):void 
+		{
+			trace(key);
+		}
+		
+	}	
 }

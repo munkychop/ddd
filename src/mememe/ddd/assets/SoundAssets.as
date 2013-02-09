@@ -9,7 +9,7 @@ package mememe.ddd.assets
 		[Embed(source="../../../../media/sounds/menu/menu_bg.mp3")] 		 
 		private static var MenuBg:Class;
 		[Embed(source="../../../../media/sounds/menu/menu_item_selected.mp3")] 		 
-		private var MenuItemSelected:Class;
+		private static var MenuItemSelected:Class;
 
 		private static var _menuBg:Sound;
 		private static var _menuItemSelected:Sound;

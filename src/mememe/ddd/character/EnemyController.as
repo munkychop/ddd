@@ -1,4 +1,5 @@
 package mememe.ddd.character {
+	import flash.geom.Point;
 	import mememe.ddd.StarlingTicker;
 	import mememe.ddd.Ticker;
 	import flash.geom.Rectangle;
@@ -20,6 +21,9 @@ package mememe.ddd.character {
 			_gameArea = gameArea;
 			
 			startWave(1);
+			//ApplicationSignals.levelStoppedSignals.add();
+			_ticker = Ticker.getInstance();
+			_ticker.add(tick);
 		}
 		
 		private function startWave(level:int){
@@ -30,44 +34,38 @@ package mememe.ddd.character {
 			var enemOffsetY = 100;
 			
 			//top left
-			spawnPoints[Array] = new Array(-enemOffsetX, enemOffsetY);
+			spawnPoints[Array] = new Point(-enemOffsetX, enemOffsetY);
 			
 			//top right
-			spawnPoints[Array] = new Array(_gameArea.width + enemOffsetX, -enemOffsetY);
+			spawnPoints[Array] = new Point(_gameArea.width + enemOffsetX, -enemOffsetY);
 			
 			//bottom left
-			spawnPoints[Array] = new Array(-enemOffsetX, _gameArea.height - enemOffsetY);
+			spawnPoints[Array] = new Point(-enemOffsetX, _gameArea.height - enemOffsetY);
 			
 			//bottom right
-			spawnPoints[Array] = new Array(_gameArea.width + enemOffsetX, _gameArea.height - enemOffsetY);
+			spawnPoints[Array] = new Point(_gameArea.width + enemOffsetX, _gameArea.height - enemOffsetY);
 			
 			createEnemy(spawnPoints[Math.round((Math.random() * spawnPoints.length))]);
-			trace("start wave");
-			_ticker = Ticker.getInstance();
-			trace(_ticker);
-			_ticker.add(tick);
 		}
 		
 		public function createEnemy(spawnPoint:Array){
 			var enem = new Enemy(_hero);
-			//enem.x = spawnPoint[0];
-			//enem.y = spawnPoint[1];
-			_enemies[Enemy] = enem;
-			addChild(enem);
+			//enem.x = spawnPoint.x;
+			//enem.y = spawnPoint.y;
+			//_enemies[Enemy] = enem;
+			//addChild(enem);
 		}
 		
 		//_enemyController = new EnemyController(dino, gameArea);
 		//	addChild(_enemyController);
 		
 		public function tick(){
-			trace("tick function");
 			moveEnemies();
 		}
 		
 		private var enemy:Enemy; 
 		
 		private function moveEnemies(){
-			trace("move function");
 			for each (var enemy: Enemy in _enemies){
 				trace(enemy.movementSpeed);
 			}

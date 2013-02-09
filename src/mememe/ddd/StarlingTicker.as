@@ -13,6 +13,7 @@ package mememe.ddd
 	
 		public function StarlingTicker()
 		{
+			_callbackDictionary = new Dictionary();
 		}
 		
 		private function onTick (event:Event):void
@@ -40,6 +41,10 @@ package mememe.ddd
 			try
 			{
 				delete _callbackDictionary[callback];
+			}
+			catch (e:Error)
+			{
+				
 			}
 		}
 	}

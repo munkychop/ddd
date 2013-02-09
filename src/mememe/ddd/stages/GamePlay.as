@@ -3,6 +3,7 @@ package mememe.ddd.stages
 	import flash.geom.Rectangle;
 	import mememe.ddd.character.Hero;
 	import mememe.ddd.controls.KeyboardInput;
+	import mememe.ddd.graphics.GameBackground;
 	import starling.display.Sprite;
 	import starling.display.Stage;
 	import starling.events.Event;
@@ -15,9 +16,9 @@ package mememe.ddd.stages
 	public final class GamePlay extends Sprite 
 	{		
 		public var dino:Hero;
+		static public const UNAVAILABLITY_AREA:uint = 550;
 		private var gameArea:Rectangle;
-		//private var enemy:Enemy;
-		
+		private var bg:GameBackground;		
 		
 		// THIS IS THE FIRST LEVEL
 		public function GamePlay() 
@@ -29,51 +30,31 @@ package mememe.ddd.stages
 		private function onAdded(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
-			gameArea = new Rectangle(0, 500, stage.stageWidth, stage.stageHeight - 500);
+			gameArea = new Rectangle(0, UNAVAILABLITY_AREA, stage.stageWidth, stage.stageHeight - UNAVAILABLITY_AREA);
 			init();
 		}
 		
 		private function init():void {
+			bg = new GameBackground();
+			addChild(bg);
 			
-			dino = new Hero();
-			//enemy = new Enemy();
-			
+			dino = new Hero();			
 			addChild(dino);
-			//addChild(enemy);
 			
 			dino.x = int(0);
 			dino.y = int(stage.stageHeight);
-			//gameArea.bottom -= dino.height;
-			addEventListener(Event.ENTER_FRAME, onTickEvent);
-			
+			addEventListener(Event.ENTER_FRAME, onTickEvent);			
 		}
-		//switch(e.keyCode) {
-				//case 37:
-					// LEFT
-					//dino.x -= 10;
-					//break;
-				//case 38:
-					// UP
-					//dino.y -= 10;
-					//break;
-				//case 39:
-					// RIGHT
-					//dino.x += 10;
-					//break;
-				//case 40:
-					// DOWN
-					//dino.y += 10;
-					//break;
-				//default:
-					//break;
-			//}
 		
 		private function onTickEvent(e:Event):void {
-			//trace(dino.x, dino.y, gameArea.bottom);
 			if (dino.x < gameArea.left) {
 				dino.x = gameArea.left;
+			} else if (dino.x > gameArea.right) {
+				dino.x = gameArea.right;
 			}
 			if (dino.y > gameArea.bottom) {
+				dino.y = gameArea.bottom;
+			} else if (dino.y < gameArea.top) {
 				dino.y = gameArea.top;
 			}
 		}

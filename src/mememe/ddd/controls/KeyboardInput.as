@@ -11,11 +11,17 @@ package mememe.ddd.controls
 		{
 			_stage = stageForKeyboard;
 			_stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
+			_stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
+		}
+		
+		private function keyDownHandler(e:KeyboardEvent):void 
+		{
+			ApplicationSignals.keyDownSignal.dispatch(e.keyCode);
 		}
 
-		private function keyUpHandler(event : KeyboardEvent) : void
+		private function keyUpHandler(e : KeyboardEvent) : void
 		{
-			ApplicationSignals.keypressSignal.dispatch(event.keyCode);
+			ApplicationSignals.keyUpSignal.dispatch(e.keyCode);
 		}
 	}
 

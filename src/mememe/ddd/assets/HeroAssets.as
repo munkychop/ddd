@@ -17,7 +17,6 @@ package mememe.ddd.assets
 		
 		
 		private static var gameTextures:Dictionary = new Dictionary();
-		private static var gameTextureAtlas:TextureAtlas;
 		private static var heroTextureAtlas:TextureAtlas;
 		
 		public static function getAtlasHero():TextureAtlas

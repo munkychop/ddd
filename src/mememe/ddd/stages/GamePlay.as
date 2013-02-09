@@ -13,8 +13,8 @@ package mememe.ddd.stages
 	 */
 	public final class GamePlay extends Sprite 
 	{		
-		private var dino:Hero;
-		private var gameArea:Rectangle;
+		private var _dino:Hero;
+		private var _gameArea:Rectangle;
 		
 		
 		// THIS IS THE FIRST LEVEL
@@ -27,24 +27,24 @@ package mememe.ddd.stages
 		private function onAdded(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
-			gameArea = new Rectangle(300, 0, stage.stageWidth, stage.stageHeight-500);
+			_gameArea = new Rectangle(300, 0, stage.stageWidth, stage.stageHeight-500);
 			init();
 		}
 		
 		private function init():void {
-			dino = new Hero();
-			addChild(dino);
+			_dino = new Hero();
+			addChild(_dino);
 			
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKey);
 			addEventListener(Event.ENTER_FRAME, onTickEvent);
 		}
 		
 		private function onTickEvent(e:Event):void {
-			if (dino.x < gameArea.left) {
-				dino.x = gameArea.left;
+			if (_dino.x < _gameArea.left) {
+				_dino.x = _gameArea.left;
 			}
-			if (dino.y < gameArea.top) {
-				dino.y = gameArea.top;
+			if (_dino.y < _gameArea.top) {
+				_dino.y = _gameArea.top;
 			}
 		}
 		
@@ -52,19 +52,19 @@ package mememe.ddd.stages
 			switch(e.keyCode) {
 				case 37:
 					// LEFT
-					dino.x -= 10;
+					_dino.x -= 10;
 					break;
 				case 38:
 					// UP
-					dino.y -= 10;
+					_dino.y -= 10;
 					break;
 				case 39:
 					// RIGHT
-					dino.x += 10;
+					_dino.x += 10;
 					break;
 				case 40:
 					// DOWN
-					dino.y += 10;
+					_dino.y += 10;
 					break;
 				default:
 					break;

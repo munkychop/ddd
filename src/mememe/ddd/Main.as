@@ -17,7 +17,6 @@ package mememe.ddd
 		
 		public function Main():void 
 		{
-			super();
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
 		}

@@ -13,7 +13,7 @@ package mememe.ddd.stages
 	 */
 	public final class GamePlay extends Sprite 
 	{		
-		private var dino:Hero;
+		public var dino:Hero;
 		private var gameArea:Rectangle;
 		
 		
@@ -26,23 +26,26 @@ package mememe.ddd.stages
 		private function onAdded(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
-			gameArea = new Rectangle(300, 0, stage.stageWidth, stage.stageHeight-500);
+			gameArea = new Rectangle(0, 500, stage.stageWidth, stage.stageHeight - 500);
 			init();
 		}
 		
 		private function init():void {
 			dino = new Hero();
 			addChild(dino);
-			
+			dino.x = int(100);
+			dino.y = int(stage.stageHeight);
+			gameArea.bottom -= dino.height;
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKey);
 			addEventListener(Event.ENTER_FRAME, onTickEvent);
 		}
 		
 		private function onTickEvent(e:Event):void {
+			trace(dino.x, dino.y, gameArea.top);
 			if (dino.x < gameArea.left) {
 				dino.x = gameArea.left;
 			}
-			if (dino.y < gameArea.top) {
+			if (dino.y > gameArea.top) {
 				dino.y = gameArea.top;
 			}
 		}

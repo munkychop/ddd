@@ -14,15 +14,18 @@ package mememe.ddd.character {
 		
 		public function Enemy() :void{
 			super();
+			
 		}
 		
-		public function spawnEnemy(){
+		public function spawnEnemy():MovieClip{
 			_enemySprite = new MovieClip(EnemyAssets.getAtlasEnemy().getTextures("anim"), 20);
 			_enemySprite.pivotX = 0;
 			_enemySprite.pivotY = _enemySprite.height;
 			
 			starling.core.Starling.juggler.add(_enemySprite);
 			this.addChild(_enemySprite);	
+			
+			return _enemySprite;
 		}
 	}
 }

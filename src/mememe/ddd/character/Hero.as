@@ -29,10 +29,8 @@ package mememe.ddd.character
 		private function init():void 
 		{
 			heroArt = new MovieClip(HeroAssets.getAtlasHero().getTextures("anim"), 20);
-			heroArt.x = int(stage.stageWidth >> 1)
-			heroArt.y = int(400);
-			heroArt.pivotX = heroArt.width >> 1;
-			heroArt.pivotY = heroArt.height >> 1;
+			heroArt.pivotX = 0;
+			heroArt.pivotY = heroArt.height;
 			
 			starling.core.Starling.juggler.add(heroArt);
 			this.addChild(heroArt);

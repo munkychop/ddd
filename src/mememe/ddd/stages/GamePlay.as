@@ -1,5 +1,6 @@
 package mememe.ddd.stages 
 {
+	import mememe.ddd.Ticker;
 	import flash.geom.Rectangle;
 	import mememe.ddd.character.EnemyController;
 	import mememe.ddd.character.Hero;
@@ -48,10 +49,16 @@ package mememe.ddd.stages
 			
 			hero.x = hero.width * 2;
 			hero.y = int(stage.stageHeight);
-			addEventListener(Event.ENTER_FRAME, onTickEvent);
+			Ticker.getInstance ().add (tick);
 		}
 		
+<<<<<<< HEAD
 		private function onTickEvent(e:Event):void {
+=======
+		private function tick (e:Event):void
+		{
+			
+>>>>>>> started fixing issues with enemy movement (still more to do)
 			// WON'T FALL OFF THE STAGE TEST
 			if ((hero.x - (hero.width / 2)) < gameArea.left) {
 				hero.x = gameArea.left + hero.width / 2;

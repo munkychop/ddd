@@ -1,10 +1,7 @@
 package mememe.ddd.character {
 
-	import mememe.ddd.vo.CharacterAttackVO;
-	import mememe.ddd.ApplicationSignals;
-	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
+	import flash.geom.Point;
 	import mememe.ddd.assets.EnemyAssets;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
@@ -14,11 +11,14 @@ package mememe.ddd.character {
 	/**
 	 * @author deanwhitehouse
 	 */
-	public class Enemy extends Sprite{
+	public class Enemy extends Sprite
+	{
 		private var _enemySprite:MovieClip;
 		
 		public var movementSpeed:int = 3;
 		public var attackCooldown:int = 1;
+		public var posX:Number;
+		public var posY:Number;
 		
 		//health
 		public var startHealth:int;
@@ -33,29 +33,29 @@ package mememe.ddd.character {
 		public var damageMultiplier:int;
 		public var healthMultiplier:int;
 		
-		//defines
-		private var ATTACKS: Dictionary = new Dictionary();
-		private var ENEMIES : Dictionary = new Dictionary();
-		
-		//user given list of possible attacks
-		private var _avaliableAttacks: Dictionary; 
-		
-		public var attack:Boolean = false;
-		
-		public var velX, velY;
-		
-		private var _target:Hero;
+		private var _target : Hero;
+		private var _shouldMove : Boolean;
+		private var _targetPoint : Point;
+		private var _zeroPoint : Point;
+		private var _globalHeroPoint : Point;
+		private var _globalEnemySpritePoint : Point;
+		private var _globalEnemySpriteRect : Rectangle;
+		private var _globalHeroRect : Rectangle;
+		private var _shouldAttack : Boolean;
 	
 		
-		public function Enemy(target:Hero){
+		public function Enemy(target:Hero)
+		{
 			super();
 			
 			_target = target;
 			
-			ATTACKS[String] = 'punch';
-			ATTACKS[String] = 'kick';
-			
-			ENEMIES[String] = 'standard';
+			addEventListener(Event.ADDED_TO_STAGE, init);
+		}
+		
+		private function init(e:Event):void
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
 			startHealth = 100;
 			currentHealth = 100;
@@ -65,33 +65,41 @@ package mememe.ddd.character {
 			damageMultiplier = 1;
 			healthMultiplier = 1;
 			
-			_avaliableAttacks = new Dictionary();
-			_avaliableAttacks[String] = 'punch';
-			_avaliableAttacks[String] = 'kick';
+			_zeroPoint = new Point ();
+			_globalHeroPoint = new Point ();
+			_globalEnemySpritePoint = new Point ();
+			_targetPoint = new Point ();
 			
-			addEventListener(Event.ADDED_TO_STAGE, init);
-		}
-		
-		public function killMe(){
+			_globalEnemySpriteRect = new Rectangle();
+			_globalHeroRect = new Rectangle();
 			
-		}
-		
-		private function init(e:Event){
+			_shouldMove = true;
+			
 			spawnEnemy();
 		}
 		
-		private function attackPlayer():void{
-			//var curAttack:CharacterAttackVO = new CharacterAttackVO();
-			//ApplicationSignals.enemyAttackSignal.dispatch(curAttack);
+		public function updateEnemy ():void
+		{
+			if (_shouldMove) moveToPoint (_enemySprite, setTarget (), movementSpeed);
 		}
 		
+<<<<<<< HEAD
 		public function spawnEnemy():void{
 			_enemySprite = new MovieClip(EnemyAssets.getAtlasEnemy().getTextures("dino_anim_mc"), 9);
+=======
+		public function renderEnemy ():void
+		{
+		}
+				
+		public function spawnEnemy():void
+		{
+			_enemySprite = new MovieClip (EnemyAssets.getAtlasEnemy().getTextures("anim"), 20);
+>>>>>>> started fixing issues with enemy movement (still more to do)
 			_enemySprite.stop();
 			_enemySprite.pivotX = _enemySprite.width >> 1;
 			_enemySprite.pivotY = _enemySprite.height;
-			_enemySprite.x = stage.stageWidth / 2;
-			_enemySprite.y = stage.stageHeight / 2;
+			_enemySprite.x = posX;
+			_enemySprite.y = posY;
 			
 			starling.core.Starling.juggler.add(_enemySprite);
 			this.addChild(_enemySprite);
@@ -99,57 +107,76 @@ package mememe.ddd.character {
 			//return _enemySprite;
 		}
 		
-		public function followHero(){
-			//trace(this.x + " " + _target.x + ' ' + this.y + ' ' + _ta);
-			//var global = localToGlobal(new Point(_target.x, _target.y));
-			//global.x -= _target.width;
-			moveTo(_target.x, _target.y);
+		public function destroy():void
+		{
+			starling.core.Starling.juggler.remove(_enemySprite);
+			this.removeChild(_enemySprite);
 		}
 		
-		public var zeroX, zeroY;
+		private function setTarget () : Point
+		{
+				_targetPoint.x = _target.x;
+				_targetPoint.y = _target.y;
+				
+				return _targetPoint;	
+		}
 		
-		public function moveTo(locX, locY){	
-			var myPos = localToGlobal(new Point(this.x, this.y));
-			myPos.x -= (-zeroX);
-			//myPos.x += this.width;
-			//locX -= _target.width;
-			var closeEnough = 0.6;
-
-			var closeX = (myPos.x <= locX + closeEnough && myPos.x >= locX - closeEnough) ? true : false;
-			var closeY = (myPos.y <= locY + closeEnough && myPos.y >= locY - closeEnough) ? true : false;
+		private function attack():void
+		{
+			//var curAttack:CharacterAttackVO = new CharacterAttackVO();
+			//ApplicationSignals.enemyAttackSignal.dispatch(curAttack);
+		}
+		
+		private function moveToPoint (obj:MovieClip, target:Point, speed:Number = 1, objRot:Boolean = false):void
+		{
+			// get the difference between obj and target points.
+			var diff:Point = target.subtract(new Point(obj.x, obj.y)); 
+			var dist:Number = diff.length;
 			
-			if(!closeX || !closeY){
-				moving = true;
+			if (dist <= speed)  // if we will go past when we move just put it in place.
+			{
+				obj.x = target.x;
+				obj.y = target.y;
 				
-				//Get the distance from the players x to the enemys x
-				var EnemXDistFromTarget = locX - myPos.x;
-
-				//Get the distance from the players y to the enemys y
-				var EnemYDistFromTarget = locY - myPos.y;	
-				
-				//Get the distance between the player and enemy
-				var EnemDist = Math.sqrt((EnemXDistFromTarget * EnemXDistFromTarget) + (EnemYDistFromTarget * EnemYDistFromTarget));
-					
-				var newRotation:int = Math.atan2(EnemYDistFromTarget, EnemXDistFromTarget) * 180 / Math.PI; 
-				
-				//this.rotation = newRotation;
-				
-				//Get radions for movement direction
-				var direction:Number = (newRotation * Math.PI) / 180;	
-					
-				//Set the X velocity 
-				velX = movementSpeed * (Math.cos(direction));
-
-				//Set the Y velocity 
-				velY = movementSpeed * (Math.sin(direction));
+				trace ("target reached");
 			}
-			else
-				moving = false;
-			
-			if(closeX)
-				velX = 0;
-			if(closeY)
-				velY = 0;
+			else // If we are not there yet. Keep moving.
+			{ 
+				// get global rectangles for hit detection.
+				
+				trace ("moving");
+				
+				_globalEnemySpritePoint = _enemySprite.localToGlobal (new Point (_enemySprite.x, _enemySprite.y));
+				
+				_globalEnemySpriteRect.x = _globalEnemySpritePoint.x;
+				_globalEnemySpriteRect.y = _globalEnemySpritePoint.y;
+				_globalEnemySpriteRect.width = _globalEnemySpritePoint.x + _enemySprite.width;
+				_globalEnemySpriteRect.height = _globalEnemySpritePoint.y + _enemySprite.height;
+				
+				_globalHeroPoint = _target.localToGlobal (new Point (_target.x, _target.y));
+				
+				_globalHeroRect.x = _globalHeroPoint.x;
+				_globalHeroRect.y = _globalHeroPoint.y;
+				_globalHeroRect.width = _globalHeroPoint.x + _target.width;
+				_globalHeroRect.height = _globalHeroPoint.y + _target.height;
+				
+				// if enemy rect overlaps hero rect stop moving and allow attacking.
+				if (_globalEnemySpriteRect.intersects(_globalHeroRect))
+				{
+					trace ("collision!!!");
+					_shouldMove = false;
+					_shouldAttack = true;
+				}
+				
+				diff.normalize(1);
+				obj.x += diff.x * speed;
+				obj.y += diff.y * speed;
+				
+				if (objRot) // If we want to rotate with our movement direction.
+				{ 
+					obj.rotation = Math.atan2(diff.y, diff.x) * (180 / Math.PI) + 90;
+				}
+			}
 		}
 	}
 }

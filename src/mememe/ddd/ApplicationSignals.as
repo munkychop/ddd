@@ -8,6 +8,7 @@ package mememe.ddd {
 	public class ApplicationSignals {
 		
 		public static var levelStoppedSignal:Signal = new Signal (EnemyDifficultyVO);
+		public static var allCurrentEnemiesDefeatedSignal:Signal = new Signal ();
 		public static var heroAttackSignal:Signal = new Signal (CharacterAttackVO);
 		public static var enemyAttackSignal:Signal = new Signal (CharacterAttackVO);
 	}

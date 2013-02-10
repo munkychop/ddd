@@ -14,6 +14,7 @@ package mememe.ddd.controls
 		private static var _rightKeyIsPressed:Boolean;
 		private static var _spaceBarPressed:Boolean;
 		private static var _globalNoKeyDown:Boolean;
+		private static var _fireKeyPressed:Boolean;
 		
 		public static function init (stageForKeyboard:Stage):void
 		{
@@ -41,6 +42,9 @@ package mememe.ddd.controls
 				case Keyboard.SPACE :
 					_spaceBarPressed = true;
 					break;
+				case Keyboard.S:
+					_fireKeyPressed = true;
+					break;
 			}
 			_globalNoKeyDown = false;
 		}
@@ -63,6 +67,9 @@ package mememe.ddd.controls
 					break;
 				case Keyboard.SPACE :
 					_spaceBarPressed = false;
+					break;
+				case Keyboard.S :
+					_fireKeyPressed = false;
 					break;
 			}
 			_globalNoKeyDown = true;
@@ -96,6 +103,11 @@ package mememe.ddd.controls
 		static public function get globalNoKeyDown():Boolean 
 		{
 			return _globalNoKeyDown;
+		}
+		
+		static public function get fireKeyPressed():Boolean 
+		{
+			return _fireKeyPressed;
 		}
 	}
 

@@ -9,10 +9,10 @@ package mememe.ddd.assets
 	public class HeroAssets
 	{
 		
-		[Embed(source="../../../../media/SpriteSheets/characters/dino.png")]
+		[Embed(source="../../../../media/SpriteSheets/characters/hero.png")]
 		public static const AtlasTextureHero:Class;
 		
-		[Embed(source="../../../../media/SpriteSheets/characters/dino.xml", mimeType="application/octet-stream")]
+		[Embed(source="../../../../media/SpriteSheets/characters/hero.xml", mimeType="application/octet-stream")]
 		public static const AtlasXmlHero:Class;
 		
 		

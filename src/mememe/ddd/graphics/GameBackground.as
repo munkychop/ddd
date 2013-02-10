@@ -90,9 +90,9 @@ package mememe.ddd.graphics
 			var prevX = 0;
 			var i = 0;
 			for(i; i < _cloudTiles.length;i++){
-				_cloudTiles[i].x -= _cloudSpeed * _player.HERO_SPEED;
+				_cloudTiles[i].x -= int(_cloudSpeed * _player.HERO_SPEED);
 				if(_cloudTiles[i].x + _cloudTiles[i].width <= 0){					
-					_cloudTiles[i].x = prevX; 
+					_cloudTiles[i].x = int(prevX); 
 					
 					prevX = _cloudTiles[i].x + _cloudTiles[i].width;
 				}
@@ -103,7 +103,7 @@ package mememe.ddd.graphics
 			prevX = _buildingTiles[0].width;
 			
 			for(i; i < _buildingTiles.length;i++){
-				_buildingTiles[i].x -= _bgSpeed * _player.HERO_SPEED;
+				_buildingTiles[i].x -= int(_bgSpeed * _player.HERO_SPEED);
 				
 				//push building tile to back if it's off screen
 				if(_buildingTiles[i].x + _buildingTiles[i].width <= 0){

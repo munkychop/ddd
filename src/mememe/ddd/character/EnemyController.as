@@ -33,7 +33,7 @@ package mememe.ddd.character {
 		
 		private function levelStopped(vo:EnemyDifficultyVO){
 			//vo.difficulty;
-		}
+		}  
 		
 		private function init(){
 			startWave(1);
@@ -49,6 +49,7 @@ package mememe.ddd.character {
 		
 		private function heroAttacked(vo:CharacterAttackVO){
 			//check if it gets enemy
+			trace('attacked');
 		}
 		
 		private var _zeroPointX:int;

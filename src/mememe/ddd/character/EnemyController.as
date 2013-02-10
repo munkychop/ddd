@@ -1,4 +1,5 @@
 package mememe.ddd.character {
+	import mememe.ddd.vo.CharacterAttackVO;
 	import starling.events.Event;
 	import starling.display.MovieClip;
 	import mememe.ddd.vo.EnemyDifficultyVO;
@@ -37,7 +38,7 @@ package mememe.ddd.character {
 		private function init(){
 			startWave(1);
 			ApplicationSignals.levelStoppedSignal.add(levelStopped);
-		//	ApplicationSignals.heroAttackSignal.add(heroAttacked);
+			ApplicationSignals.heroAttackSignal.add(heroAttacked);
 			
 			_leftCollisionBounds = new Rectangle(0, 0, _gameArea.width / 2, _gameArea.height);
 			_rightCollisionBounds = new Rectangle(_gameArea.width / 2, 0, _gameArea.width / 2, _gameArea.height);
@@ -46,7 +47,7 @@ package mememe.ddd.character {
 			_ticker.add(tick);
 		}
 		
-		private function heroAttacked(){
+		private function heroAttacked(vo:CharacterAttackVO){
 			//check if it gets enemy
 		}
 		

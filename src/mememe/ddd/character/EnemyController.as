@@ -45,6 +45,9 @@ package mememe.ddd.character {
 			_ticker.add(tick);
 		}
 		
+		private var _zeroPointX:int;
+		private var _zeroPointY:int;
+		
 		private function startWave(level:int){
 			var spawnPoints:Array = new Array();
 			
@@ -54,22 +57,22 @@ package mememe.ddd.character {
 			
 			
 			//zero is the middle of screen
-			var zeroPointX:int = _gameArea.width / 2;
-			var zeroPointY:int = stage.stageHeight / 2;
+			_zeroPointX = _gameArea.width / 2;
+			_zeroPointY = stage.stageHeight / 2;
 			
 			//top left
-			spawnPoints[0] = new Array((-zeroPointX) - enemOffsetX, enemOffsetY);
+			spawnPoints[0] = new Array((-_zeroPointX) - enemOffsetX, enemOffsetY);
 			
 			//top right
-			spawnPoints[1] = new Array(zeroPointX + enemOffsetX, -enemOffsetY);
+			spawnPoints[1] = new Array(_zeroPointX + enemOffsetX, -enemOffsetY);
 			
 			//bottom left
-			spawnPoints[2] = new Array((-zeroPointX) - enemOffsetX, zeroPointY - enemOffsetY);
+			spawnPoints[2] = new Array((-_zeroPointX) - enemOffsetX, _zeroPointY - enemOffsetY);
 			
 			//bottom right
-			spawnPoints[3] = new Array(zeroPointX + enemOffsetX, zeroPointY - enemOffsetY);
+			spawnPoints[3] = new Array(_zeroPointX + enemOffsetX, _zeroPointY - enemOffsetY);
 			
-			for(var i = 0; i < 5; i++){
+			for(var i = 0; i < 1; i++){
 				createEnemy(spawnPoints[Math.round((Math.random() * 3))]);
 			}
 		}
@@ -80,6 +83,8 @@ package mememe.ddd.character {
 			var enem = new Enemy(_hero);
 			enem.x = spawnPoint[0];
 			enem.y = spawnPoint[1];
+			enem.zeroX = _zeroPointX;
+			enem.zeroY = _zeroPointY;
 			_enemies[_enemyCounter] = enem;
 			addChild(enem);
 			
@@ -92,7 +97,7 @@ package mememe.ddd.character {
 	
 		
 		private function moveEnemies(){
-			for (var i = 1;i < _enemies.length; i++){
+			for (var i = 0;i < _enemies.length; i++){
 				var enemy:Enemy = _enemies[i];
 				
 				//get the range radius (aka its range)
@@ -134,9 +139,8 @@ package mememe.ddd.character {
 					enemy.attack = true;
 					
 					//move to player --- to do
-
-					enemy.followHero();
-					
+					//if(!enemy.moving)
+						enemy.followHero();
 				}
 
 				if(enemy.moving){

@@ -1,5 +1,6 @@
 package mememe.ddd.character {
 
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	import mememe.ddd.assets.EnemyAssets;
@@ -14,7 +15,7 @@ package mememe.ddd.character {
 	public class Enemy extends Sprite{
 		private var _enemySprite:MovieClip;
 		
-		public var movementSpeed:int = 1.5;
+		public var movementSpeed:int = 3;
 		public var attackCooldown:int = 1;
 		
 		//health
@@ -92,18 +93,32 @@ package mememe.ddd.character {
 		}
 		
 		public function followHero(){
+			//trace(this.x + " " + _target.x + ' ' + this.y + ' ' + _ta);
+			var global = localToGlobal(new Point(_target.x, _target.y));
+			//global.x -= _target.width;
 			moveTo(_target.x, _target.y);
 		}
 		
+		public var zeroX, zeroY;
+		
 		public function moveTo(locX, locY){	
-			if(this.x != locX || this.y != locY){
+			var myPos = localToGlobal(new Point(this.x, this.y));
+			myPos.x -= (-zeroX);
+			//myPos.x += this.width;
+			
+			var closeEnough = 500;
+			
+			var closeX = (myPos.x <= locX + closeEnough && myPos.x >= locX + closeEnough) ? true : false;
+			var closeY = (myPos.y <= locY + closeEnough && myPos.y >= locY + closeEnough) ? true : false;
+			
+			if(!closeX || !closeY){
 				moving = true;
 				
 				//Get the distance from the players x to the enemys x
-				var EnemXDistFromTarget = locX - this.x;
+				var EnemXDistFromTarget = locX - myPos.x;
 				
 				//Get the distance from the players y to the enemys y
-				var EnemYDistFromTarget = locY - this.y;	
+				var EnemYDistFromTarget = locY - myPos.y;	
 				
 				//Get the distance between the player and enemy
 				var EnemDist = Math.sqrt((EnemXDistFromTarget * EnemXDistFromTarget) + (EnemYDistFromTarget * EnemYDistFromTarget));
@@ -115,14 +130,19 @@ package mememe.ddd.character {
 				//Get radions for movement direction
 				var direction:Number = (newRotation * Math.PI) / 180;	
 					
-				//Set the bullets X velocity 
+				//Set the X velocity 
 				velX = movementSpeed * (Math.cos(direction));
-	
-				//Set the bullets Y velocity 
+
+				//Set the Y velocity 
 				velY = movementSpeed * (Math.sin(direction));
 			}
 			else
 				moving = false;
+			
+			if(closeX)
+				velX = 0;
+			if(closeY)
+				velY = 0;
 		}
 	}
 }

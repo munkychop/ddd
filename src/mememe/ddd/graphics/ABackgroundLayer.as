@@ -45,6 +45,7 @@ package mememe.ddd.graphics
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			
+			/*
 			if (_layer == 1) {
 				image1 = new Image(BackgroundAssets.getTexture("Background" + _layer));
 				image1.blendMode = BlendMode.NONE;
@@ -71,7 +72,7 @@ package mememe.ddd.graphics
 				this.addChild(mc2);
 				this.addChild(mc2);
 			}
-			
+			*/
 			
 			
 		}

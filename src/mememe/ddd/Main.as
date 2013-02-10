@@ -31,7 +31,7 @@ package mememe.ddd
 			
 			myStarling = new Starling(DrugDealingDino, stage);
 			
-			_keyboardInput = new KeyboardInput(stage);
+			KeyboardInput.init (stage);
 			
 			myStarling.antiAliasing = 1;
 			

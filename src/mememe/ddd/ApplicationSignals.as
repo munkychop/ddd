@@ -7,7 +7,5 @@ package mememe.ddd {
 	public class ApplicationSignals {
 		
 		public static var levelStoppedSignal:Signal = new Signal (EnemyDifficultyVO);
-		public static var keyDownSignal:Signal = new Signal (uint);
-		public static var keyUpSignal:Signal = new Signal (uint);
 	}
 }

@@ -103,6 +103,10 @@ package mememe.ddd.character {
 			starling.core.Starling.juggler.remove(_enemySprite);
 			this.removeChild(_enemySprite);
 		}
+		public function flipScale ():void
+		{
+			_enemySprite.scaleX *= -1;
+		}
 		
 		private function setTarget () : Point
 		{
@@ -140,7 +144,7 @@ package mememe.ddd.character {
 				// if enemy rect overlaps hero rect stop moving and allow attacking.
 				if (obj.bounds.intersects(_target.bounds))
 				{
-					trace ("collision!!!");
+					// trace ("collision!!!");
 					_shouldMove = false;
 					_shouldAttack = true;
 				}

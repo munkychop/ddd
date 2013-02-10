@@ -31,7 +31,7 @@ package mememe.ddd {
 			this.addChild(gamePlay);
 			
 			mainSoundFile = SoundAssets.mainBg as Sound;			
-			mainSoundTransform = new SoundTransform(0);
+			mainSoundTransform = new SoundTransform(0.2);
 			mainSoundChannel = mainSoundFile.play(0, 9999, mainSoundTransform);
 			
 			_ticker = Ticker.getInstance();

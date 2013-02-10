@@ -173,10 +173,20 @@ package mememe.ddd.character {
 						heroFireParticles.start(); 
 						areParticlesRunning = true;
 					}
+					
 					// FIGURED IT OUT THAT PARTICLES DON'T GET ANY BIGGER THAN 190px
 					_killingArea.width = int(heroFireParticles.numParticles * 190 / 233);
 					
-					_killingArea.x = this.x;
+					// set pos of killing area if facing left or right.
+					if (this.scaleX == 1)
+					{
+						_killingArea.x = this.x;
+					}
+					else
+					{
+						_killingArea.x = this.x - _killingArea.width;
+					}
+					
 					_killingArea.y = this.y - this.height;
 					
 					var myHeroAttackDetails:CharacterAttackVO = new CharacterAttackVO();		

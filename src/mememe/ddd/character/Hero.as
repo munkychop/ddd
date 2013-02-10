@@ -1,5 +1,10 @@
 package mememe.ddd.character {
+	import flash.geom.Rectangle;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.media.SoundMixer;
 	import mememe.ddd.assets.ParticleAssets;
+	import mememe.ddd.assets.SoundAssets;
 	import mememe.ddd.controls.KeyboardInput;
 	import flash.ui.Keyboard;
 	import flash.geom.Point;
@@ -8,6 +13,7 @@ package mememe.ddd.character {
 	import mememe.ddd.DDDConstants;
 	import mememe.ddd.StarlingTicker;
 	import mememe.ddd.Ticker;
+	import mememe.ddd.vo.CharacterAttackVO;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
@@ -27,6 +33,11 @@ package mememe.ddd.character {
 		private var heroArt:MovieClip;
 		
 		private var _ticker:StarlingTicker;
+		private var areParticlesRunning:Boolean;
+		private var heroSoundFile:Sound;
+		private var heroSoundChannel:SoundChannel;
+		
+		public var killingArea:Rectangle;
 		
 		public function Hero()
 		{
@@ -42,6 +53,9 @@ package mememe.ddd.character {
 		
 		private function init():void
 		{
+			// PROBABLY POINT{} WOULD WORK BETTER
+			killingArea = new Rectangle(0, 0, 0, 50);
+			
 			_ticker = Ticker.getInstance();
 			
 			_ticker.add (checkKeys);
@@ -60,6 +74,9 @@ package mememe.ddd.character {
 			heroFireParticles.x = 10;
 			Starling.juggler.add(heroFireParticles); heroFireParticles.stop();
 			addChild(heroFireParticles);
+			areParticlesRunning = false;
+			
+			heroSoundChannel = new SoundChannel();
 		}
 		
 		public function hide ():void
@@ -109,9 +126,28 @@ package mememe.ddd.character {
 			}
 			
 			if (KeyboardInput.spaceBarIsPressed) {
-				if (DDDConstants.isHardwareRendering) { heroFireParticles.start(); }
+				if (DDDConstants.isHardwareRendering) { 
+					if (!areParticlesRunning) {
+						heroSoundFile = SoundAssets.heroFire as Sound;
+						heroSoundChannel = heroSoundFile.play();
+						heroFireParticles.start(); 
+						areParticlesRunning = true;
+					}
+					// FIGURED IT OUT THAT PARTICLES DON'T GET ANY BIGGER THAN 190px
+					killingArea.width = int(heroFireParticles.numParticles * 190 / 233);
+					
+					var myHeroAttackDetails:CharacterAttackVO = new CharacterAttackVO();		
+					myHeroAttackDetails.attackAreaRect = killingArea;
+					
+					// BETWEEN 0 AND 1
+					myHeroAttackDetails.damage = killingArea.width / 190 * 100;
+					ApplicationSignals.heroAttackSignal.dispatch(myHeroAttackDetails);
+				}
 			} else {
+				heroSoundChannel.stop();
+				killingArea.width = 0;
 				heroFireParticles.stop();
+				areParticlesRunning = false;				
 			}
 		}
 	}	

@@ -93,8 +93,12 @@ package mememe.ddd.character {
 				
 		public function spawnEnemy():void
 		{
+<<<<<<< HEAD
 			_enemySprite = new MovieClip (EnemyAssets.getAtlasEnemy().getTextures("anim"), 20);
 >>>>>>> started fixing issues with enemy movement (still more to do)
+=======
+			_enemySprite = new MovieClip(EnemyAssets.getAtlasEnemy().getTextures("dino_anim_mc"), 9);
+>>>>>>> updated enemy graphic
 			_enemySprite.stop();
 			_enemySprite.pivotX = _enemySprite.width >> 1;
 			_enemySprite.pivotY = _enemySprite.height;

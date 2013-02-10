@@ -1,4 +1,5 @@
 package mememe.ddd {
+	import mememe.ddd.vo.CharacterAttackVO;
 	import mememe.ddd.vo.EnemyDifficultyVO;
 	import org.osflash.signals.Signal;
 	/**
@@ -7,5 +8,7 @@ package mememe.ddd {
 	public class ApplicationSignals {
 		
 		public static var levelStoppedSignal:Signal = new Signal (EnemyDifficultyVO);
+		public static var heroAttackSignal:Signal = new Signal (CharacterAttackVO);
+		public static var enemyAttackSignal:Signal = new Signal (CharacterAttackVO);
 	}
 }

@@ -1,5 +1,7 @@
 package mememe.ddd.character {
 
+	import mememe.ddd.vo.CharacterAttackVO;
+	import mememe.ddd.ApplicationSignals;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
@@ -76,6 +78,11 @@ package mememe.ddd.character {
 		
 		private function init(e:Event){
 			spawnEnemy();
+		}
+		
+		private function attackPlayer():void{
+			//var curAttack:CharacterAttackVO = new CharacterAttackVO();
+			//ApplicationSignals.enemyAttackSignal.dispatch(curAttack);
 		}
 		
 		public function spawnEnemy():void{

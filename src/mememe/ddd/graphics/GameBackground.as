@@ -16,12 +16,13 @@ package mememe.ddd.graphics
 	{
 		
 		private var bgLayer1:ABackgroundLayer;
+		private var bgLayer1_:ABackgroundLayer;
 		//private var bgLayer2:ABackgroundLayer;
 		private var bgLayer3:ABackgroundLayer;
 		private var bgLayer3_:ABackgroundLayer;
 		//private var bgLayer4:ABackgroundLayer;
 		
-		private var _speed:Number = 0;
+		private var _speed:int = 0.2;
 		
 		private var _state:int;
 		
@@ -45,6 +46,15 @@ package mememe.ddd.graphics
 			this.addChild(bgLayer1);
 			
 			var temp = bgLayer1;
+			
+			_cloudTiles.push(temp);
+			
+			bgLayer1_ = new ABackgroundLayer(1);
+			bgLayer1_.parallaxDepth = 0.02;
+			bgLayer1_.x = bgLayer1.width;
+			this.addChild(bgLayer1_);
+			
+			temp = bgLayer1_;
 			
 			_cloudTiles.push(temp);
 			
@@ -95,18 +105,13 @@ package mememe.ddd.graphics
 			
 			for(i; i < _buildingTiles.length;i++){
 				_buildingTiles[i].x -= _bgSpeed * _player.HERO_SPEED;
+				
 				//push building tile to back if it's off screen
 				if(_buildingTiles[i].x + _buildingTiles[i].width <= 0){
-					/*var offset = _bgSpeed * _player.HERO_SPEED;
-					
-					if(_buildingTiles[i].x + _buildingTiles[i].width < 0){
-						offset =  _buildingTiles[i].width + _buildingTiles[i].x;
-					}*/
-					
-					_buildingTiles[i].x = prevX; 
-					
-					prevX = _buildingTiles[i].x + _buildingTiles[i].width;
+					_buildingTiles[i].x = prevX + _bgSpeed * _player.HERO_SPEED;
+					//prevX = _buildingTiles[i].x + _buildingTiles[i].width;
 				}
+				prevX = _buildingTiles[i].x + _buildingTiles[i].width;
 			}
 		}
 		
@@ -115,7 +120,7 @@ package mememe.ddd.graphics
 			{
 				// Background 1 - Sky + Clouds
 				bgLayer1.x -= Math.ceil(_speed * bgLayer1.parallaxDepth);
-				
+				bgLayer1_.x -= Math.ceil(_speed * bgLayer1_.parallaxDepth);
 				// Background 2 - Hills
 				
 				// Background 3 - Buildings

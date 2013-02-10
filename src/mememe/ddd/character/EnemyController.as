@@ -37,7 +37,7 @@ package mememe.ddd.character {
 		private function init(){
 			startWave(1);
 			ApplicationSignals.levelStoppedSignal.add(levelStopped);
-			//ApplicationSignals.heroAttackSignal.add(heroAttacked);
+		//	ApplicationSignals.heroAttackSignal.add(heroAttacked);
 			
 			_leftCollisionBounds = new Rectangle(0, 0, _gameArea.width / 2, _gameArea.height);
 			_rightCollisionBounds = new Rectangle(_gameArea.width / 2, 0, _gameArea.width / 2, _gameArea.height);

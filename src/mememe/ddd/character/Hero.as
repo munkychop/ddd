@@ -38,7 +38,7 @@ package mememe.ddd.character {
 		private var heroSoundFile:Sound;
 		private var heroSoundChannel:SoundChannel;
 		
-		public var killingArea:Rectangle;
+		public var _killingArea:Rectangle;
 		
 		public function Hero()
 		{
@@ -55,7 +55,7 @@ package mememe.ddd.character {
 		private function init():void
 		{
 			// PROBABLY POINT{} WOULD WORK BETTER
-			killingArea = new Rectangle(0, 0, 0, 50);
+			_killingArea = new Rectangle(this.x, this.y, 0, 50);
 			
 			_ticker = Ticker.getInstance();
 			
@@ -174,18 +174,21 @@ package mememe.ddd.character {
 						areParticlesRunning = true;
 					}
 					// FIGURED IT OUT THAT PARTICLES DON'T GET ANY BIGGER THAN 190px
-					killingArea.width = int(heroFireParticles.numParticles * 190 / 233);
+					_killingArea.width = int(heroFireParticles.numParticles * 190 / 233);
+					
+					_killingArea.x = this.x;
+					_killingArea.y = this.y - this.height;
 					
 					var myHeroAttackDetails:CharacterAttackVO = new CharacterAttackVO();		
-					myHeroAttackDetails.attackAreaRect = killingArea;
+					myHeroAttackDetails.attackAreaRect = _killingArea;
 					
 					// BETWEEN 0 AND 1
-					myHeroAttackDetails.damage = killingArea.width / 190 * 100;
+					myHeroAttackDetails.damage = _killingArea.width / 190 * 100;
 					ApplicationSignals.heroAttackSignal.dispatch(myHeroAttackDetails);
 				}
 			} else {
 				heroSoundChannel.stop();
-				killingArea.width = 0;
+				_killingArea.width = 0;
 				heroFireParticles.stop();
 				areParticlesRunning = false;				
 			}

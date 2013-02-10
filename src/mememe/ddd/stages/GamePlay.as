@@ -38,13 +38,18 @@ package mememe.ddd.stages
 		}
 		
 		private function init():void {
+			
 			hero = new Hero();
 			bg = new GameBackground(hero);
+			
+			// add bg first so it is at the back.
 			addChild(bg);						
+			
+			_enemyController = new EnemyController(hero, gameArea, this);
+			
+			// add hero last so he is on top ;)
 			addChild(hero);
 			
-			_enemyController = new EnemyController(hero, gameArea);
-			addChild(_enemyController);
 
 			
 			hero.x = hero.width * 2;

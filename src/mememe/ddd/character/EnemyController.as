@@ -1,4 +1,5 @@
 package mememe.ddd.character {
+	import starling.display.DisplayObjectContainer;
 	import mememe.ddd.vo.CharacterAttackVO;
 	import starling.events.Event;
 	import starling.display.MovieClip;
@@ -14,37 +15,34 @@ package mememe.ddd.character {
 	/**
 	 * @author deanwhitehouse
 	 */
-	public class EnemyController extends Sprite {
-		private static const TOTAL_ENEMIES_IN_WAVE : uint = 1;
+	public class EnemyController extends Sprite
+	{
+		private static const TOTAL_ENEMIES_IN_WAVE : uint = 20;
 		
 		private var _hero:Hero;
 		private var _ticker:StarlingTicker;
 		private var _gameArea:Rectangle;
 		
-		private var _leftCollisionBounds:Rectangle;
-		private var _rightCollisionBounds:Rectangle;
-		
 		private var _enemies : Vector.<Enemy> = new Vector.<Enemy>();
 		private var _enemyCounter : uint;
 		private var _spawnPoints : Vector.<Point>;
 		private var _centrePoint : Point;
+		private var _containerForEnemies : DisplayObjectContainer;
 		
-		public function EnemyController(hero:Hero, gameArea:Rectangle){
+		public function EnemyController(hero:Hero, gameArea:Rectangle, containerForEnemies:DisplayObjectContainer){
 			_hero = hero;
 			_gameArea = gameArea;
+			_containerForEnemies = containerForEnemies;
 			_enemyCounter = 0;
 			
-			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+			init ();
 		}
 
-		private function addedToStageHandler(event : Event) : void
+		private function init () : void
 		{
 			startWave(1);
 			ApplicationSignals.levelStoppedSignal.add(levelStopped);
 			ApplicationSignals.heroAttackSignal.add(heroAttacked);
-			
-			_leftCollisionBounds = new Rectangle(0, 0, _gameArea.width / 2, _gameArea.height);
-			_rightCollisionBounds = new Rectangle(_gameArea.width / 2, 0, _gameArea.width / 2, _gameArea.height);
 			
 			_ticker = Ticker.getInstance();
 			_ticker.add(tick);
@@ -54,9 +52,29 @@ package mememe.ddd.character {
 			//vo.difficulty;
 		}  
 		
-		private function heroAttacked(vo:CharacterAttackVO){
+		private function heroAttacked(vo:CharacterAttackVO):void
+		{
 			//check if it gets enemy
 			trace('attacked');
+			
+			var enemy:Enemy;
+			var attackAreaRect:Rectangle = vo.attackAreaRect;
+			for each (enemy in _enemies)
+			{
+				if (attackAreaRect.intersects (enemy.enemySprite.bounds))
+				{
+					trace ("flame hitting enemy!!!");
+					enemy.destroy ();
+					_containerForEnemies.removeChild(enemy);
+					
+					_enemyCounter--;
+				}		
+			}
+			
+			if (_enemyCounter == 0)
+			{
+				ApplicationSignals.allCurrentEnemiesDefeatedSignal.dispatch ();
+			}
 		}
 		
 		private function startWave(level:int):void
@@ -72,17 +90,11 @@ package mememe.ddd.character {
 			_spawnPoints = new Vector.<Point>(4);
 			
 			//top left
-			_spawnPoints[0] = new Point (0, enemOffsetY);
+			_spawnPoints[0] = new Point (_gameArea.left, _gameArea.top);
+			_spawnPoints[1] = new Point (_gameArea.left, _gameArea.bottom);
+			_spawnPoints[2] = new Point (_gameArea.right, _gameArea.top);
+			_spawnPoints[3] = new Point (_gameArea.right, _gameArea.bottom);
 			
-			/*
-			//top right
-			_spawnPoints[1] = new Point (_gameArea.width, -enemOffsetY);
-			
-			//bottom left
-			_spawnPoints[2] = new Point ((-_zeroPointX) - enemOffsetX, _zeroPointY - enemOffsetY);
-			
-			//bottom right
-			_spawnPoints[3] = new Point (_zeroPointX + enemOffsetX, _zeroPointY - enemOffsetY);
 			
 			var i:int = 0;
 			var numSpawnPoints:uint = _spawnPoints.length;
@@ -90,11 +102,6 @@ package mememe.ddd.character {
 			{
 				createEnemy (_spawnPoints[Math.round((Math.random() * (numSpawnPoints - 1)))]);
 			}
-			 * 
-			 *
-			 */
-			 
-			 createEnemy (new Point (600, 400));
 		}
 		
 		public function createEnemy (spawnPoint:Point):void
@@ -103,7 +110,7 @@ package mememe.ddd.character {
 			enemy.posX = spawnPoint.x;
 			enemy.posY = spawnPoint.y;
 			_enemies[_enemyCounter] = enemy;
-			addChild (enemy);
+			_containerForEnemies.addChild (enemy);
 			
 			_enemyCounter++;
 		}

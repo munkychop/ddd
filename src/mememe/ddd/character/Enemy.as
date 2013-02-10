@@ -129,30 +129,16 @@ package mememe.ddd.character {
 				obj.x = target.x;
 				obj.y = target.y;
 				
-				trace ("target reached");
+				// trace ("target reached");
 			}
 			else // If we are not there yet. Keep moving.
 			{ 
 				// get global rectangles for hit detection.
 				
-				trace ("moving");
-				
-				_globalEnemySpritePoint = _enemySprite.localToGlobal (new Point (_enemySprite.x, _enemySprite.y));
-				
-				_globalEnemySpriteRect.x = _globalEnemySpritePoint.x;
-				_globalEnemySpriteRect.y = _globalEnemySpritePoint.y;
-				_globalEnemySpriteRect.width = _globalEnemySpritePoint.x + _enemySprite.width;
-				_globalEnemySpriteRect.height = _globalEnemySpritePoint.y + _enemySprite.height;
-				
-				_globalHeroPoint = _target.localToGlobal (new Point (_target.x, _target.y));
-				
-				_globalHeroRect.x = _globalHeroPoint.x;
-				_globalHeroRect.y = _globalHeroPoint.y;
-				_globalHeroRect.width = _globalHeroPoint.x + _target.width;
-				_globalHeroRect.height = _globalHeroPoint.y + _target.height;
+				// trace ("moving");
 				
 				// if enemy rect overlaps hero rect stop moving and allow attacking.
-				if (_globalEnemySpriteRect.intersects(_globalHeroRect))
+				if (obj.bounds.intersects(_target.bounds))
 				{
 					trace ("collision!!!");
 					_shouldMove = false;
@@ -168,6 +154,10 @@ package mememe.ddd.character {
 					obj.rotation = Math.atan2(diff.y, diff.x) * (180 / Math.PI) + 90;
 				}
 			}
+		}
+
+		public function get enemySprite() : MovieClip {
+			return _enemySprite;
 		}
 	}
 }

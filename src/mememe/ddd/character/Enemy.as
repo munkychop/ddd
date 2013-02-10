@@ -14,12 +14,17 @@ package mememe.ddd.character {
 	public class Enemy extends Sprite{
 		private var _enemySprite:MovieClip;
 		
-		public var movementSpeed:int = 1;
+		public var movementSpeed:int = 1.5;
 		public var attackCooldown:int = 1;
 		
 		//health
 		public var startHealth:int;
 		public var currentHealth:int;
+		
+		public var moving:Boolean = false;
+		
+		//integer of how far the enemy can 'see'
+		public var range:int;
 		
 		//multipliers to adjust difficulty 
 		public var damageMultiplier:int;
@@ -31,6 +36,10 @@ package mememe.ddd.character {
 		
 		//user given list of possible attacks
 		private var _avaliableAttacks: Dictionary; 
+		
+		public var attack:Boolean = false;
+		
+		public var velX, velY;
 		
 		private var _target:Hero;
 	
@@ -48,6 +57,8 @@ package mememe.ddd.character {
 			startHealth = 100;
 			currentHealth = 100;
 			
+			range = 1000;
+			
 			damageMultiplier = 1;
 			healthMultiplier = 1;
 			
@@ -55,14 +66,14 @@ package mememe.ddd.character {
 			_avaliableAttacks[String] = 'punch';
 			_avaliableAttacks[String] = 'kick';
 			
-			addEventListener(Event.ADDED_TO_STAGE, testEvent);
+			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 		
 		public function killMe(){
 			
 		}
 		
-		private function testEvent(e:Event){
+		private function init(e:Event){
 			spawnEnemy();
 		}
 		
@@ -80,13 +91,38 @@ package mememe.ddd.character {
 			//return _enemySprite;
 		}
 		
-		public function goToPlayer(avoidAI:Boolean){
-			if(avoidAI){
+		public function followHero(){
+			moveTo(_target.x, _target.y);
+		}
+		
+		public function moveTo(locX, locY){	
+			if(this.x != locX || this.y != locY){
+				moving = true;
 				
+				//Get the distance from the players x to the enemys x
+				var EnemXDistFromTarget = locX - this.x;
+				
+				//Get the distance from the players y to the enemys y
+				var EnemYDistFromTarget = locY - this.y;	
+				
+				//Get the distance between the player and enemy
+				var EnemDist = Math.sqrt((EnemXDistFromTarget * EnemXDistFromTarget) + (EnemYDistFromTarget * EnemYDistFromTarget));
+					
+				var newRotation:int = Math.atan2(EnemYDistFromTarget, EnemXDistFromTarget) * 180 / Math.PI; 
+				
+				//this.rotation = newRotation;
+				
+				//Get radions for movement direction
+				var direction:Number = (newRotation * Math.PI) / 180;	
+					
+				//Set the bullets X velocity 
+				velX = movementSpeed * (Math.cos(direction));
+	
+				//Set the bullets Y velocity 
+				velY = movementSpeed * (Math.sin(direction));
 			}
-			else{
-				//moveTo(_target.x, _target.y);
-			}
+			else
+				moving = false;
 		}
 	}
 }

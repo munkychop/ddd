@@ -21,7 +21,7 @@ package mememe.ddd.character {
 		private var _leftCollisionBounds:Rectangle;
 		private var _rightCollisionBounds:Rectangle;
 		
-		private var _enemies:Dictionary = new Dictionary();
+		private var _enemies:Array = new Array();
 		
 		public function EnemyController(hero:Hero, gameArea:Rectangle){
 			_hero = hero;
@@ -69,30 +69,81 @@ package mememe.ddd.character {
 			//bottom right
 			spawnPoints[3] = new Array(zeroPointX + enemOffsetX, zeroPointY - enemOffsetY);
 			
-			for(var i = 0; i < 5; i++)
-				createEnemy(spawnPoints[Math.round((Math.random() * 4))]);
+			for(var i = 0; i < 5; i++){
+				createEnemy(spawnPoints[Math.round((Math.random() * 3))]);
+			}
 		}
+		
+		private var _enemyCounter = 0;
 		
 		public function createEnemy(spawnPoint:Array){
 			var enem = new Enemy(_hero);
 			enem.x = spawnPoint[0];
 			enem.y = spawnPoint[1];
-			_enemies[Enemy] = enem;
+			_enemies[_enemyCounter] = enem;
 			addChild(enem);
+			
+			_enemyCounter++;
 		}
-		
-		//_enemyController = new EnemyController(dino, gameArea);
-		//	addChild(_enemyController);
 		
 		public function tick(){
 			moveEnemies();
 		}
-		
-		private var enemy:Enemy; 
+	
 		
 		private function moveEnemies(){
-			for each (var enemy: Enemy in _enemies){
-				//trace(enemy.movementSpeed);
+			for (var i = 1;i < _enemies.length; i++){
+				var enemy:Enemy = _enemies[i];
+				
+				//get the range radius (aka its range)
+				var RangeDist = (enemy.range);
+				
+				//Get the distance from the players x to the enemys x
+				var EnemXDistFromTarget = _hero.x - enemy.x;
+				
+				//Get the distance from the players y to the enemys y
+				var EnemYDistFromTarget = _hero.y - enemy.y;	
+				
+				//Get the distance between the player and enemy
+				var EnemDist = Math.sqrt((EnemXDistFromTarget * EnemXDistFromTarget) + (EnemYDistFromTarget * EnemYDistFromTarget));
+				
+				
+				//if the enemy is attacking (following player)
+				if(enemy.attack){
+					//check if the target is out of range
+					if(EnemDist > RangeDist){
+						//if not then attack mode
+						enemy.attack = false;
+						
+						//return to position --- to do
+						enemy.moving = false;
+					}
+				}
+				
+				//check if player is in range 
+				if(EnemDist <= RangeDist){
+					
+					//rotate enemy to face?
+					
+					//work out the angle differnce
+					//var angleDif:Number = enemy.rotation - newRotation;
+					
+					//Round the angle dif
+					//angleDif = Math.round(angleDif);*/
+	
+					enemy.attack = true;
+					
+					//move to player --- to do
+
+					enemy.followHero();
+					
+				}
+
+				if(enemy.moving){
+					//Move enemies 
+					enemy.x += enemy.velX;
+					enemy.y += enemy.velY;
+				}
 			}
 		}
 	}

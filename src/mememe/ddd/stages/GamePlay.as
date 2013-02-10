@@ -52,13 +52,8 @@ package mememe.ddd.stages
 			Ticker.getInstance ().add (tick);
 		}
 		
-<<<<<<< HEAD
-		private function onTickEvent(e:Event):void {
-=======
-		private function tick (e:Event):void
+		private function tick ():void
 		{
-			
->>>>>>> started fixing issues with enemy movement (still more to do)
 			// WON'T FALL OFF THE STAGE TEST
 			if ((hero.x - (hero.width / 2)) < gameArea.left) {
 				hero.x = gameArea.left + hero.width / 2;

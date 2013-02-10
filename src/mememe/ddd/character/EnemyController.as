@@ -114,7 +114,6 @@ package mememe.ddd.character {
 			for each (enemy in _enemies)
 			{
 				enemy.updateEnemy ();
-				enemy.renderEnemy ();
 			}
 		}	
 	}

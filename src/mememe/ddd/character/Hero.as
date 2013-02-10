@@ -29,7 +29,7 @@ package mememe.ddd.character {
 	public class Hero extends Sprite
 	{
 		public var heroFireParticles:PDParticleSystem;
-		public var HERO_SPEED:uint = 4;
+		public var HERO_SPEED:uint = 8;
 		
 		private var heroArt:MovieClip;
 		
@@ -61,7 +61,7 @@ package mememe.ddd.character {
 			
 			_ticker.add (checkKeys);
 			
-			heroArt = new MovieClip(HeroAssets.getAtlasHero().getTextures("dino_anim_mc"), 9);
+			heroArt = new MovieClip(HeroAssets.getAtlasHero().getTextures("walk"), 9);
 			heroArt.scaleX = -0.8; heroArt.scaleY = 0.8;
 			heroArt.pivotX = heroArt.width >> 1;
 			heroArt.pivotY = heroArt.height;
@@ -161,7 +161,7 @@ package mememe.ddd.character {
 			}
 			
 			// STOP HERO WHEN NOT WALKING
-			if (KeyboardInput.globalNoKeyDown) {
+			if (KeyboardInput.allKeysReleased) {
 				heroArt.stop();
 			}
 			

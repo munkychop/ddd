@@ -1,23 +1,31 @@
 package mememe.ddd.controls 
 {
+	import flash.utils.Dictionary;
 	import flash.ui.Keyboard;
-	import mememe.ddd.ApplicationSignals;
 	import flash.events.KeyboardEvent;
 	import flash.display.Stage;
 	
 	public class KeyboardInput 
 	{
 		private static var _stage : Stage;
-		private static var _upKeyIsPressed:Boolean;
-		private static var _downKeyIsPressed:Boolean;
-		private static var _leftKeyIsPressed:Boolean;
-		private static var _rightKeyIsPressed:Boolean;
-		private static var _spaceBarPressed:Boolean;
-		private static var _globalNoKeyDown:Boolean;
-		private static var _fireKeyPressed:Boolean;
+		private static var _upKeyStateVO:KeyStateVO;
+		private static var _downKeyStateVO:KeyStateVO;
+		private static var _leftKeyStateVO:KeyStateVO;
+		private static var _rightKeyStateVO:KeyStateVO;
+		private static var _spaceBarStateVO:KeyStateVO;
+		private static var _allKeyStatesVector:Vector.<KeyStateVO>;
 		
 		public static function init (stageForKeyboard:Stage):void
 		{
+			_upKeyStateVO = new KeyStateVO (Keyboard.UP);
+			_downKeyStateVO = new KeyStateVO (Keyboard.DOWN);
+			_leftKeyStateVO = new KeyStateVO (Keyboard.LEFT);
+			_rightKeyStateVO = new KeyStateVO (Keyboard.RIGHT);
+			_spaceBarStateVO = new KeyStateVO (Keyboard.SPACE);
+			
+			_allKeyStatesVector = new Vector.<KeyStateVO>();
+			_allKeyStatesVector.push (_upKeyStateVO, _downKeyStateVO, _leftKeyStateVO, _rightKeyStateVO, _spaceBarStateVO);
+			
 			_stage = stageForKeyboard;
 			_stage.addEventListener(KeyboardEvent.KEY_UP, KeyboardInput.keyUpHandler);
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, KeyboardInput.keyDownHandler);
@@ -28,87 +36,95 @@ package mememe.ddd.controls
 			switch (event.keyCode)
 			{
 				case Keyboard.UP :
-					_upKeyIsPressed = true;
+					_upKeyStateVO.pressed = true;
 					break;
 				case Keyboard.DOWN :
-					_downKeyIsPressed = true;
+					_downKeyStateVO.pressed = true;
 					break;
 				case Keyboard.LEFT :
-					_leftKeyIsPressed = true;
+					_leftKeyStateVO.pressed = true;
 					break;
 				case Keyboard.RIGHT :
-					_rightKeyIsPressed = true;
+					_rightKeyStateVO.pressed = true;
 					break;
 				case Keyboard.SPACE :
-					_spaceBarPressed = true;
-					break;
-				case Keyboard.S:
-					_fireKeyPressed = true;
+					_spaceBarStateVO.pressed = true;
 					break;
 			}
-			_globalNoKeyDown = false;
 		}
 
 		private static function keyUpHandler(event:KeyboardEvent) : void
-		{
+		{			
 			switch (event.keyCode)
 			{
 				case Keyboard.UP :
-					_upKeyIsPressed = false;
+					_upKeyStateVO.pressed = false;
 					break;
 				case Keyboard.DOWN :
-					_downKeyIsPressed = false;
+					_downKeyStateVO.pressed = false;
 					break;
 				case Keyboard.LEFT :
-					_leftKeyIsPressed = false;
+					_leftKeyStateVO.pressed = false;
 					break;
 				case Keyboard.RIGHT :
-					_rightKeyIsPressed = false;
+					_rightKeyStateVO.pressed = false;
 					break;
 				case Keyboard.SPACE :
-					_spaceBarPressed = false;
-					break;
-				case Keyboard.S :
-					_fireKeyPressed = false;
+					_spaceBarStateVO.pressed = false;
 					break;
 			}
-			_globalNoKeyDown = true;
+			
 		}
 
 		static public function get upKeyIsPressed() : Boolean {
-			return _upKeyIsPressed;
+			return _upKeyStateVO.pressed;
 		}
 
 		static public function get downKeyIsPressed() : Boolean {
-			return _downKeyIsPressed;
+			return _downKeyStateVO.pressed;
 		}
 
 		static public function get leftKeyIsPressed() : Boolean {
-			return _leftKeyIsPressed;
+			return _leftKeyStateVO.pressed;
 		}
 
 		public static function get rightKeyIsPressed() : Boolean {
-			return _rightKeyIsPressed;
-		}
-
-		public static function set rightKeyIsPressed(rightKeyIsPressed : Boolean) : void {
-			_rightKeyIsPressed = rightKeyIsPressed;
+			return _rightKeyStateVO.pressed;
 		}
 		
 		static public function get spaceBarIsPressed():Boolean 
 		{
-			return _spaceBarPressed;
+			return _spaceBarStateVO.pressed;
 		}
-		
-		static public function get globalNoKeyDown():Boolean 
+
+		static public function get allKeysReleased() : Boolean
 		{
-			return _globalNoKeyDown;
-		}
-		
-		static public function get fireKeyPressed():Boolean 
-		{
-			return _fireKeyPressed;
+			var keyStateVO:KeyStateVO;
+			for each (keyStateVO in _allKeyStatesVector)
+			{
+				if (keyStateVO.pressed) return false;
+			}
+			
+			return true;
 		}
 	}
+}
 
+internal class KeyStateVO
+{
+	private var _keyCode:uint;
+	private var _pressed:Boolean;
+	
+	public function KeyStateVO (keyCode:uint)
+	{
+		_keyCode = keyCode;
+	}
+
+	public function get pressed() : Boolean {
+		return _pressed;
+	}
+
+	public function set pressed(pressed : Boolean) : void {
+		_pressed = pressed;
+	}
 }

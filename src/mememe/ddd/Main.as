@@ -1,4 +1,4 @@
-package mememe.ddd 
+package mememe.ddd
 {
 	import flash.display.Sprite;
 	import flash.events.Event;

@@ -12,6 +12,8 @@ package mememe.ddd.controls
 		private static var _downKeyIsPressed:Boolean;
 		private static var _leftKeyIsPressed:Boolean;
 		private static var _rightKeyIsPressed:Boolean;
+		private static var _spaceBarPressed:Boolean;
+		private static var _globalNoKeyDown:Boolean;
 		
 		public static function init (stageForKeyboard:Stage):void
 		{
@@ -36,7 +38,11 @@ package mememe.ddd.controls
 				case Keyboard.RIGHT :
 					_rightKeyIsPressed = true;
 					break;
+				case Keyboard.SPACE :
+					_spaceBarPressed = true;
+					break;
 			}
+			_globalNoKeyDown = false;
 		}
 
 		private static function keyUpHandler(event:KeyboardEvent) : void
@@ -55,7 +61,11 @@ package mememe.ddd.controls
 				case Keyboard.RIGHT :
 					_rightKeyIsPressed = false;
 					break;
+				case Keyboard.SPACE :
+					_spaceBarPressed = false;
+					break;
 			}
+			_globalNoKeyDown = true;
 		}
 
 		static public function get upKeyIsPressed() : Boolean {
@@ -76,6 +86,16 @@ package mememe.ddd.controls
 
 		public static function set rightKeyIsPressed(rightKeyIsPressed : Boolean) : void {
 			_rightKeyIsPressed = rightKeyIsPressed;
+		}
+		
+		static public function get spaceBarIsPressed():Boolean 
+		{
+			return _spaceBarPressed;
+		}
+		
+		static public function get globalNoKeyDown():Boolean 
+		{
+			return _globalNoKeyDown;
 		}
 	}
 

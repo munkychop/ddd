@@ -1,9 +1,10 @@
 package mememe.ddd.stages 
 {
-	import mememe.ddd.character.EnemyController;
 	import flash.geom.Rectangle;
+	import mememe.ddd.character.EnemyController;
 	import mememe.ddd.character.Hero;
 	import mememe.ddd.controls.KeyboardInput;
+	import mememe.ddd.DDDConstants;
 	import mememe.ddd.graphics.GameBackground;
 	import starling.display.Sprite;
 	import starling.display.Stage;
@@ -16,14 +17,13 @@ package mememe.ddd.stages
 	 */
 	public final class GamePlay extends Sprite 
 	{		
-		public var dino:Hero;
-		private var _enemyController:EnemyController;
-		static public const UNAVAILABLITY_AREA:uint = 550;
+		public var hero:Hero;
 		private var gameArea:Rectangle;
 		private var bg:GameBackground;		
+		private var _enemyController:EnemyController;
 		
-		// THIS IS THE FIRST LEVEL
-		public function GamePlay() 
+		// THIS IS THE LEVEL CREATOR
+		public function GamePlay(_levelID:uint = 1) 
 		{
 			super();
 			addEventListener(Event.ADDED_TO_STAGE, onAdded);			
@@ -32,7 +32,7 @@ package mememe.ddd.stages
 		private function onAdded(e:Event):void 
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, onAdded);
-			gameArea = new Rectangle(0, UNAVAILABLITY_AREA, stage.stageWidth, stage.stageHeight - UNAVAILABLITY_AREA);
+			gameArea = new Rectangle(0, DDDConstants.UNAVAILABLITY_AREA, stage.stageWidth, stage.stageHeight - DDDConstants.UNAVAILABLITY_AREA);
 			init();
 		}
 		
@@ -40,27 +40,30 @@ package mememe.ddd.stages
 			bg = new GameBackground();
 			addChild(bg);
 			
-			dino = new Hero();			
-			addChild(dino);
+			hero = new Hero();			
+			addChild(hero);
 			
-			_enemyController = new EnemyController(dino, gameArea);
+			_enemyController = new EnemyController(hero, gameArea);
 			addChild(_enemyController);
+
 			
-			dino.x = int(0);
-			dino.y = int(stage.stageHeight);
-			addEventListener(Event.ENTER_FRAME, onTickEvent);			
+			hero.x = int(hero.width>>1);
+			hero.y = int(stage.stageHeight);
+			addEventListener(Event.ENTER_FRAME, onTickEvent);
 		}
 		
 		private function onTickEvent(e:Event):void {
-			if (dino.x < gameArea.left) {
-				dino.x = gameArea.left;
-			} else if (dino.x > gameArea.right) {
-				dino.x = gameArea.right;
+			
+			// WON'T FALL OFF THE STAGE TEST
+			if (hero.x < gameArea.left) {
+				hero.x = gameArea.left;
+			} else if (hero.x > gameArea.right) {
+				hero.x = gameArea.right;
 			}
-			if (dino.y > gameArea.bottom) {
-				dino.y = gameArea.bottom;
-			} else if (dino.y < gameArea.top) {
-				dino.y = gameArea.top;
+			if (hero.y > gameArea.bottom) {
+				hero.y = gameArea.bottom;
+			} else if (hero.y < gameArea.top) {
+				hero.y = gameArea.top;
 			}
 		}
 		

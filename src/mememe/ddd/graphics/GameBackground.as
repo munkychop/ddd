@@ -1,5 +1,7 @@
 package mememe.ddd.graphics 
 {
+	import mememe.ddd.DDDConstants;
+	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	/**
@@ -14,13 +16,10 @@ package mememe.ddd.graphics
 		private var bgLayer3:ABackgroundLayer;
 		//private var bgLayer4:ABackgroundLayer;
 		
-		/** Current speed of animation of the background. */
 		private var _speed:Number = 0;
 		
-		/** State of the game. */		
 		private var _state:int;
 		
-		/** Game paused? */
 		private var _gamePaused:Boolean = false;
 		
 		public function GameBackground()
@@ -37,28 +36,30 @@ package mememe.ddd.graphics
 			this.addChild(bgLayer1);
 			
 			bgLayer3 = new ABackgroundLayer(3);
-			bgLayer3.parallaxDepth = 0.4;
+			bgLayer3.parallaxDepth = 0.4;			
 			this.addChild(bgLayer3);
 			
-			// Start animating the background.
+			//bgLayer4 = new ABackgroundLayer(4);
+			//bgLayer4.parallaxDepth = .8;
+			//this.addChild(bgLayer4);
+			
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
 		private function onEnterFrame(event:Event):void	{
 			if (!gamePaused)
 			{
-				// Background 1 - Sky
+				// Background 1 - Sky + Clouds
 				bgLayer1.x -= Math.ceil(_speed * bgLayer1.parallaxDepth);
-				// Hero flying left
 				if (bgLayer1.x > 0) bgLayer1.x = -stage.stageWidth;
-				// Hero flying right
 				if (bgLayer1.x < -stage.stageWidth ) bgLayer1.x = 0;
 				
 				// Background 2 - Hills
 				
 				// Background 3 - Buildings
+				bgLayer3.y = -stage.stageHeight + DDDConstants.UNAVAILABLITY_AREA;
 				
-				// Background 4 - Trees				
+				// Background 4 - Ground				
 			}
 		}
 		

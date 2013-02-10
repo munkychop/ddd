@@ -1,5 +1,6 @@
 package mememe.ddd.graphics 
 {
+	import mememe.ddd.character.Hero;
 	import mememe.ddd.Ticker;
 	import mememe.ddd.StarlingTicker;
 	import mememe.ddd.DDDConstants;
@@ -25,10 +26,13 @@ package mememe.ddd.graphics
 		private var _gamePaused:Boolean = false;
 		private var _ticker:StarlingTicker;
 		
-		public function GameBackground()
+		private var _player:Hero;
+		
+		public function GameBackground(hero)
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			_player = hero;
 		}
 		private function onAddedToStage(event:Event):void
 		{
@@ -53,6 +57,8 @@ package mememe.ddd.graphics
 		private function loop ():void	{
 			if (!gamePaused)
 			{
+				if(_player.x > stage.stageWidth / 2){
+				}
 				// Background 1 - Sky + Clouds
 				bgLayer1.x -= Math.ceil(_speed * bgLayer1.parallaxDepth);
 				if (bgLayer1.x > 0) bgLayer1.x = -stage.stageWidth;

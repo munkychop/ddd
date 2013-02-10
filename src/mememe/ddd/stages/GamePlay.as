@@ -37,10 +37,9 @@ package mememe.ddd.stages
 		}
 		
 		private function init():void {
-			bg = new GameBackground();
-			addChild(bg);
-			
-			hero = new Hero();			
+			hero = new Hero();
+			bg = new GameBackground(hero);
+			addChild(bg);						
 			addChild(hero);
 			
 			_enemyController = new EnemyController(hero, gameArea);

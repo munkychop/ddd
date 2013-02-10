@@ -1,4 +1,5 @@
 package mememe.ddd.character {
+	import mememe.ddd.vo.EnemyDifficultyVO;
 	import flash.geom.Rectangle;
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
@@ -77,6 +78,13 @@ package mememe.ddd.character {
 			areParticlesRunning = false;
 			
 			heroSoundChannel = new SoundChannel();
+			ApplicationSignals.levelStoppedSignal.add(levelStopped);
+		}
+		
+		private var _levelRolling:Boolean = true;
+		
+		private function levelStopped(vo:EnemyDifficultyVO){
+			_levelRolling = false;
 		}
 		
 		public function hide ():void
@@ -101,7 +109,15 @@ package mememe.ddd.character {
 			{
 				this.scaleX = 1;
 				heroArt.play();
-				this.x += HERO_SPEED;
+
+				if(_levelRolling){
+					if(this.x < stage.stageWidth / 2){
+						this.x += HERO_SPEED;	
+					}
+				}
+				else{
+					this.x += HERO_SPEED;
+				}
 			} else {
 				
 			}

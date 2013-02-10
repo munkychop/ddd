@@ -145,8 +145,12 @@ package mememe.ddd.character {
 
 				if(enemy.moving){
 					//Move enemies 
-					enemy.x += enemy.velX;
-					enemy.y += enemy.velY;
+					
+					if(enemy.velX != 0)
+						enemy.x += enemy.velX;
+					
+					if(enemy.velY != 0)
+						enemy.y += enemy.velY;
 				}
 			}
 		}

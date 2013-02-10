@@ -94,7 +94,7 @@ package mememe.ddd.character {
 		
 		public function followHero(){
 			//trace(this.x + " " + _target.x + ' ' + this.y + ' ' + _ta);
-			var global = localToGlobal(new Point(_target.x, _target.y));
+			//var global = localToGlobal(new Point(_target.x, _target.y));
 			//global.x -= _target.width;
 			moveTo(_target.x, _target.y);
 		}
@@ -105,18 +105,18 @@ package mememe.ddd.character {
 			var myPos = localToGlobal(new Point(this.x, this.y));
 			myPos.x -= (-zeroX);
 			//myPos.x += this.width;
-			
-			var closeEnough = 500;
-			
-			var closeX = (myPos.x <= locX + closeEnough && myPos.x >= locX + closeEnough) ? true : false;
-			var closeY = (myPos.y <= locY + closeEnough && myPos.y >= locY + closeEnough) ? true : false;
+			//locX -= _target.width;
+			var closeEnough = 0.6;
+
+			var closeX = (myPos.x <= locX + closeEnough && myPos.x >= locX - closeEnough) ? true : false;
+			var closeY = (myPos.y <= locY + closeEnough && myPos.y >= locY - closeEnough) ? true : false;
 			
 			if(!closeX || !closeY){
 				moving = true;
 				
 				//Get the distance from the players x to the enemys x
 				var EnemXDistFromTarget = locX - myPos.x;
-				
+
 				//Get the distance from the players y to the enemys y
 				var EnemYDistFromTarget = locY - myPos.y;	
 				

@@ -9,10 +9,10 @@ package mememe.ddd.assets
 	public class EnemyAssets
 	{
 		
-		[Embed(source="../../../../media/SpriteSheets/Testing/knight.png")]
+		[Embed(source="../../../../media/SpriteSheets/characters/dino_police.png")]
 		public static const AtlasTextureEnemy:Class;
 		
-		[Embed(source="../../../../media/SpriteSheets/Testing/knight.xml", mimeType="application/octet-stream")]
+		[Embed(source="../../../../media/SpriteSheets/characters/dino_police.xml", mimeType="application/octet-stream")]
 		public static const AtlasXmlEnemy:Class;
 		
 		

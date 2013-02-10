@@ -1,4 +1,8 @@
 package mememe.ddd {
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
+	import mememe.ddd.assets.SoundAssets;
 	import mememe.ddd.stages.GamePlay;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -8,6 +12,11 @@ package mememe.ddd {
 		private var gamePlay : GamePlay;
 		private var _ticker : StarlingTicker;
 		// MAIN STARLING CLASS. HERE ALL STARTS
+		
+		private var mainSoundFile:Sound;
+		private var mainSoundChannel:SoundChannel;
+		private var mainSoundTransform:SoundTransform;
+		
 		public function DrugDealingDino ()
 		{
 			super();
@@ -20,6 +29,10 @@ package mememe.ddd {
 			
 			gamePlay = new GamePlay();
 			this.addChild(gamePlay);
+			
+			mainSoundFile = SoundAssets.mainBg as Sound;			
+			mainSoundTransform = new SoundTransform(0);
+			mainSoundChannel = mainSoundFile.play(0, 9999, mainSoundTransform);
 			
 			_ticker = Ticker.getInstance();
 			

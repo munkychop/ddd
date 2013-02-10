@@ -61,7 +61,8 @@ package mememe.ddd.character {
 			
 			_ticker.add (checkKeys);
 			
-			heroArt = new MovieClip(HeroAssets.getAtlasHero().getTextures("anim"), 22);
+			heroArt = new MovieClip(HeroAssets.getAtlasHero().getTextures("dino_anim_mc"), 9);
+			heroArt.scaleX = -0.8; heroArt.scaleY = 0.8;
 			heroArt.pivotX = heroArt.width >> 1;
 			heroArt.pivotY = heroArt.height;
 			
@@ -71,8 +72,8 @@ package mememe.ddd.character {
 			//FIRE PARTICLES
 			heroFireParticles = new PDParticleSystem(XML(new ParticleAssets.firePEX()), Texture.fromBitmap(new ParticleAssets.ParticleTexture()));
 			heroFireParticles.scaleX = heroFireParticles.scaleY = 1.2;
-			heroFireParticles.y = -this.height + 40;
-			heroFireParticles.x = 10;
+			heroFireParticles.y = -this.height + 58;
+			heroFireParticles.x = 81;
 			Starling.juggler.add(heroFireParticles); heroFireParticles.stop();
 			addChild(heroFireParticles);
 			areParticlesRunning = false;

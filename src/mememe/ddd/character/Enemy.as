@@ -86,7 +86,7 @@ package mememe.ddd.character {
 		}
 		
 		public function spawnEnemy():void{
-			_enemySprite = new MovieClip(EnemyAssets.getAtlasEnemy().getTextures("anim"), 20);
+			_enemySprite = new MovieClip(EnemyAssets.getAtlasEnemy().getTextures("dino_anim_mc"), 9);
 			_enemySprite.stop();
 			_enemySprite.pivotX = _enemySprite.width >> 1;
 			_enemySprite.pivotY = _enemySprite.height;

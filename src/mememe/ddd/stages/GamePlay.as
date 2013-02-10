@@ -46,28 +46,26 @@ package mememe.ddd.stages
 			addChild(_enemyController);
 
 			
-			hero.x = int(hero.width>>1);
+			hero.x = hero.width * 2;
 			hero.y = int(stage.stageHeight);
 			addEventListener(Event.ENTER_FRAME, onTickEvent);
 		}
 		
 		private function onTickEvent(e:Event):void {
-			
 			// WON'T FALL OFF THE STAGE TEST
-			if (hero.x < gameArea.left) {
-				hero.x = gameArea.left;
-			} else if (hero.x > gameArea.right) {
-				hero.x = gameArea.right;
+			if ((hero.x - (hero.width / 2)) < gameArea.left) {
+				hero.x = gameArea.left + hero.width / 2;
 			}
+			else if ((hero.x + (hero.width / 2)) > gameArea.right) {
+				hero.x = gameArea.right - (hero.width / 2);
+			}
+			
 			if (hero.y > gameArea.bottom) {
 				hero.y = gameArea.bottom;
 			} else if (hero.y < gameArea.top) {
 				hero.y = gameArea.top;
 			}
 		}
-		
-		
-		
 	}
 
 }

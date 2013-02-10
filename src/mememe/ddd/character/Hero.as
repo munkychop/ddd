@@ -29,7 +29,7 @@ package mememe.ddd.character {
 	public class Hero extends Sprite
 	{
 		public var heroFireParticles:PDParticleSystem;
-		private static const HERO_SPEED:uint = 4;
+		public var HERO_SPEED:uint = 4;
 		
 		private var heroArt:MovieClip;
 		
@@ -79,18 +79,40 @@ package mememe.ddd.character {
 			
 			heroSoundChannel = new SoundChannel();
 			ApplicationSignals.levelStoppedSignal.add(levelStopped);
+			ApplicationSignals.allCurrentEnemiesDefeatedSignal.add(levelStarted);
+			_enemyStart = 4000;
 		}
 		
-		private var _levelRolling:Boolean = true;
+		public var levelRolling:Boolean = true;
+		
+		private function levelStarted(){
+			levelRolling = true;
+		}
 		
 		private function levelStopped(vo:EnemyDifficultyVO){
-			_levelRolling = false;
+			levelRolling = false;
 		}
 		
 		public function hide ():void
 		{
 			_ticker.remove (checkKeys);
 			heroArt.stop();
+		}
+		
+		private var _steps:int = 0;
+		private var _enemyStart;
+		private var _difficulty = 1;
+		private var _vo:EnemyDifficultyVO = new EnemyDifficultyVO ();
+		
+		private function takeStep():void{
+			if(_steps == _enemyStart){
+				_vo.difficulty = (Math.floor(_difficulty));
+				ApplicationSignals.levelStoppedSignal.dispatch(_vo);
+				_steps = 0;
+				_enemyStart  = Math.round((Math.random() * 100));
+				_difficulty += 0.5;
+			}
+			_steps++;
 		}
 		
 		private function checkKeys ():void 
@@ -110,10 +132,11 @@ package mememe.ddd.character {
 				this.scaleX = 1;
 				heroArt.play();
 
-				if(_levelRolling){
+				if(levelRolling){
 					if(this.x < stage.stageWidth / 2){
 						this.x += HERO_SPEED;	
 					}
+					takeStep();
 				}
 				else{
 					this.x += HERO_SPEED;

@@ -1,5 +1,6 @@
 package mememe.ddd.character {
 
+	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	import mememe.ddd.assets.EnemyAssets;
 	import starling.core.Starling;
@@ -67,15 +68,15 @@ package mememe.ddd.character {
 		
 		public function spawnEnemy():void{
 			_enemySprite = new MovieClip(EnemyAssets.getAtlasEnemy().getTextures("anim"), 20);
-			_enemySprite.pivotX = 0;
+			_enemySprite.stop();
+			_enemySprite.pivotX = _enemySprite.width >> 1;
 			_enemySprite.pivotY = _enemySprite.height;
-			_enemySprite.scaleX = 0.5;
-			_enemySprite.scaleY = 0.5;
 			_enemySprite.x = stage.stageWidth / 2;
 			_enemySprite.y = stage.stageHeight / 2;
 			
 			starling.core.Starling.juggler.add(_enemySprite);
-			this.addChild(_enemySprite);	
+			this.addChild(_enemySprite);
+
 			//return _enemySprite;
 		}
 		

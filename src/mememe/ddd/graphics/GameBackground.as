@@ -1,5 +1,7 @@
 package mememe.ddd.graphics 
 {
+	import mememe.ddd.Ticker;
+	import mememe.ddd.StarlingTicker;
 	import mememe.ddd.DDDConstants;
 	import starling.core.Starling;
 	import starling.display.Sprite;
@@ -21,6 +23,7 @@ package mememe.ddd.graphics
 		private var _state:int;
 		
 		private var _gamePaused:Boolean = false;
+		private var _ticker:StarlingTicker;
 		
 		public function GameBackground()
 		{
@@ -43,10 +46,11 @@ package mememe.ddd.graphics
 			//bgLayer4.parallaxDepth = .8;
 			//this.addChild(bgLayer4);
 			
-			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			_ticker = Ticker.getInstance();
+			_ticker.add (loop);
 		}
 		
-		private function onEnterFrame(event:Event):void	{
+		private function loop ():void	{
 			if (!gamePaused)
 			{
 				// Background 1 - Sky + Clouds
